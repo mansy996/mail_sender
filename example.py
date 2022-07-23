@@ -12,7 +12,7 @@ def main():
 
     mail_sender = MailSender()
     sent, msg = mail_sender.send_mail(
-        receiver_address = "ahmedmansy1996@gmail.com", subject = "test subject",
+        receiver_address = "test@gmail.com", subject = "test subject",
         content = "message content", attach_files = (("file_1.txt", file_1), ("file_2.txt", file_2))
     )
     print(sent, msg)
