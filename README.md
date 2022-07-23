@@ -20,19 +20,27 @@ This module is built with Python >= 3.7
 <!-- GETTING STARTED -->
 ## Getting Started
 
+### How To Install
+* using python pip
+  ```sh
+  pip install git+https://github.com/mansy996/mail_sender
+  ```
+### How To Use
 To get started with this module just clone it into your repo then do the following:
 * define `SENDER_ADDR` & `SENDER_PASS` & `SMTP_PORT` & `SMTP_SERVER` env variables
-* import the `MailSendera` class as follows
-    ```python
-    from mail_sender import MailSendera
-    ```
-* initialize an instance from the `MailSendera` class
+  * Using python:
     ```python
     import os
     sender_address = os.environ.get("SENDER_ADDR")
     sender_pass = os.environ.get("SENDER_PASS")
     smtp_port = os.environ.get("SMTP_PORT")
     smtp_server = os.environ.get("SMTP_SERVER")
+    ```
+  * Or using the os terminal.
+  * Or using the venv activate file.
+* initialize an instance from the `MailSendera` class
+    ```python
+    from mail_sender import MailSendera
     mail_sender = MailSendera()
     ```
 * call the `send_mail` method and provide the mail attributes:
