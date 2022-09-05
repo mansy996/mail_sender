@@ -15,19 +15,18 @@ class MailSender:
         self.sender_pass = os.environ.get("SENDER_PASS")
         self.smtp_port = int(os.environ.get("SMTP_PORT"))
         self.smtp_server = os.environ.get("SMTP_SERVER")
-        self.errors = {}
 
     def validate_email(self, field: str, email: str):
+        errors = {}
         regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
         if not (re.fullmatch(regex, email)):
-            self.errors[field] = "Invalid {} Email.".format(field.capitalize())
-        return False
+            errors[field] = "Invalid {} Email.".format(field.capitalize())
+        return errors
 
     def parse_file(self, file):
         if isinstance(file, io.BytesIO) or isinstance(file, io.StringIO):
             return file.getvalue()
-        else:
-            return file.read()
+        return file.read()
 
     def send_mail(
         self, receiver_address: str, subject: str, content: str,
@@ -38,11 +37,13 @@ class MailSender:
         - Note that based on content type the content will be parsed
         """
         try:
-            self.validate_email("sender", self.sender_address)
-            self.validate_email("receiver", receiver_address)
+            errors = {
+                **self.validate_email("sender", self.sender_address),
+                **self.validate_email("receiver", receiver_address)
+            }
 
-            if self.errors:
-                raise Exception(self.errors)
+            if errors:
+                raise Exception(errors)
 
             #Setup the MIME
             message = MIMEMultipart()
